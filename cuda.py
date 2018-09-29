@@ -215,10 +215,10 @@ def train(num_epochs, btch_size, learn_rate, trainset, valset):
                 running_total = 0
                 log_running_loss = 0.0
 
-            if i % 8000 == 7999:    # print every 2000 mini-batches
+            if i % 4000 == 3999:    # print every 2000 mini-batches
 
                 print('[%d, %5d] loss: %.3f' %
-                      (epoch + 1, i + 1, running_loss / 8000))
+                      (epoch + 1, i + 1, running_loss / 4000))
                 running_loss = 0.0
 
     return net, iteration_log, loss_log, validation_loss_log, accuracy_log, validation_accuracy_log
@@ -262,17 +262,20 @@ def eval_net(net, testloader):
 
     print('Accuracy of the network on the 10000 test images: %d %%' % (
         100 * correct / total))
+    accuracy = correct / total
+    return accuracy
 
 # _________________________________________
 
 batch_opts = [8]
-lr_opts = [0.0005, 0.0001]
+lr_opts = [0.001]
 epoch_opts = [16]
 
 all_options = list(product(batch_opts,lr_opts,epoch_opts))
 option_labels = ['batches', 'learning rate','epochs']
 # print(all_options)
 max_accuracy_list = []
+test_accuracy_list = []
 
 count = 0
 btch_size = 4
@@ -290,13 +293,15 @@ for option in all_options:
     elapsed_time = (time.time() - start_time)/60
     print('** evaluating **')
     print('batch size: %d, learn rate: %f, epochs: %d' % (btch_size, learn_rate, num_epochs))
-    eval_net(net, testloader)
+    test_accuracy = eval_net(net, testloader)
+    test_accuracy_list.append(test_accuracy)
 
     max_accuracy = max(validation_accuracy_log)
-    max_accuracy_list.append(max_accuracy)
+    max_accuracy_list.append(test_accuracy)
     min_loss = min(validation_loss_log)
     with open("Output.txt", "a") as text_file:
         text_file.write("\n \nCount: %s, Time: %f\n" % (count, elapsed_time))
+        text_file.write("Accuracy of the network on the 10000 test images: %f\n" % (test_accuracy))
         text_file.write("Max Validation accuracy: %f, Min Validation loss: %f\n" % (max_accuracy, min_loss))
         for i in range(3):
             text_file.write(option_labels[i]+": %s\n" % option[i])
@@ -306,16 +311,16 @@ for option in all_options:
     # plt.show()
     count += 1
     # sys.exit()
-total_best_accuracy = max(max_accuracy_list)
+total_best_accuracy = max(test_accuracy_list)
 best_accuracy_index = max_accuracy_list.index(total_best_accuracy)
-print('FINAL BEST ACC:')
+print('Final best test accuracy:')
 print(total_best_accuracy)
-print('AT INDEX:')
+print('At count:')
 print(best_accuracy_index)
 
 with open("Output.txt", "a") as text_file:
     text_file.write("\n\n*****-------*****FINAL RESULT*****-------*****\n")
-    text_file.write("\n \nCount number of best accuracy: %s, Best validation accuracy: %f\n" % (best_accuracy_index, total_best_accuracy))
+    text_file.write("\n \nCount number of best accuracy: %s, Best test accuracy: %f\n" % (best_accuracy_index, total_best_accuracy))
 
 
 # plt.show()

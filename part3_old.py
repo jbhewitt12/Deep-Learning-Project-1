@@ -66,14 +66,10 @@ import time
     
 #     sys.exit()  
 # -------------------------------------------
-print('cuda available:')
-print(torch.cuda.is_available())
 
 device = 'cuda' if torch.cuda.is_available() else 'cpu'
 
-transform = transforms.Compose(
-    [transforms.ToTensor(),
-     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+transform = transforms.ToTensor()
 
 trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
                                         download=True, transform=transform)
@@ -126,6 +122,14 @@ def evaluate_validation_set(net, valloader, criterion):
 # besides, you can also make modifications for faster training 
 # by selecting a subset of the original dataset.
 
+def outputSize(in_size, kernel_size, stride, padding):
+
+    output = int((in_size - kernel_size + 2*(padding)) / stride) + 1
+
+    return(output)
+
+
+
 
 class Net(nn.Module):
     
@@ -146,14 +150,14 @@ class Net(nn.Module):
             super(Net, self).__init__()
             # Conv2d(in channel, out channel, kernel)
             # Linear(in channel, out channel)
-            self.conv1 = nn.Conv2d(3, 28, 5, stride=1, padding=2)
+            self.conv1 = nn.Conv2d(3, 12, 5, stride=1, padding=2)
             self.pool = nn.MaxPool2d(2, 2)
-            self.conv2 = nn.Conv2d(28, 42, 5, padding=2)
-            self.conv3 = nn.Conv2d(42, 64, 3, padding=1)
-            self.fc1 = nn.Linear(64 * 4 * 4, 512)
-            self.fc2 = nn.Linear(512, 256)
-            self.fc3 = nn.Linear(256, 64)
-            self.fc4 = nn.Linear(64, 10)
+            self.conv2 = nn.Conv2d(12, 22, 5, padding=2)
+            self.conv3 = nn.Conv2d(22, 36, 5, padding=2)
+            self.fc1 = nn.Linear(36 * 4 * 4, 240)
+            self.fc2 = nn.Linear(240, 120)
+            self.fc3 = nn.Linear(120, 84)
+            self.fc4 = nn.Linear(84, 10)
 
     def forward(self, x):
         old = False
@@ -212,7 +216,7 @@ class Net(nn.Module):
             x = self.pool(F.relu(self.conv3(x)))
             # print('x size: after conv 3')
             # print(x.size())
-            x = x.view(-1, 64 * 4 * 4)
+            x = x.view(-1, 36 * 4 * 4)
             x = F.relu(self.fc1(x))
             x = F.relu(self.fc2(x))
             x = F.relu(self.fc3(x))
@@ -229,45 +233,30 @@ def train(num_epochs, btch_size, learn_rate, trainset, valset):
                                          shuffle=False, num_workers=0)
 
     net = Net()
-    net = net.to(device) 
+    net = net.to(device)
 
     criterion = nn.CrossEntropyLoss()
     optimizer = optim.SGD(net.parameters(), lr=learn_rate, momentum=0.9)
-    # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3, gamma=0.1)
 
-    #initialize variables for logging results
     iteration_log = []
     loss_log = []
     accuracy_log = []
     validation_loss_log = []
     validation_accuracy_log = []
-    visualizer_iteration = 2000 #set how many batches are passed before avg accuracy and loss are saved
-
-    for epoch in range(num_epochs):  # loop over the dataset for num_epochs
-        # scheduler.step()
-        if epoch < 1:
-            print('lr = 0.01')
-            lr = 0.005
-            for param_group in optimizer.param_groups:
-                param_group['lr'] = lr
-        elif epoch < 3:
-            lr = 0.001 
-            for param_group in optimizer.param_groups:
-                param_group['lr'] = lr
-        else:
-            lr = 0.0001 
-            for param_group in optimizer.param_groups:
-                param_group['lr'] = lr
-
+    visualizer_iteration = 1000
+    for epoch in range(num_epochs):  # loop over the dataset multiple times
+        print('num epochs:')
+        print(num_epochs)
         elapsed_time = time.time() - start_time
-        if elapsed_time > 60 * 20: #If training takes longer than 20 mins then end early
+        # print('elapsed_time:')
+        # print(elapsed_time)
+        if elapsed_time > 60 * 20:
             print('Ended early')
             return net, iteration_log, loss_log, validation_loss_log, accuracy_log, validation_accuracy_log
         running_loss = 0.0
-        log_running_loss = 0.0
+        running_loss2 = 0.0
         running_total = 0
         running_correct = 0
-
         for i, data in enumerate(trainloader, 0):
             
             # get the inputs
@@ -287,35 +276,40 @@ def train(num_epochs, btch_size, learn_rate, trainset, valset):
             running_total += labels.size(0)
             running_correct += (predicted == labels).sum().item()
 
-            # running losses
+            # print statistics
             running_loss += loss.item()
-            log_running_loss += loss.item()
+            running_loss2 += loss.item()
 
-            if i % visualizer_iteration == 0 and i != 0: #Get avg accuracy and loss for training and validation
-                accuracy, loss = evaluate_validation_set(net, valloader, criterion) #find the avg accuracy and loss of the current net on the validation set
-                print('validation accuracy: %f' % accuracy)
-
+            if i % visualizer_iteration == 0 and i != 0:
+                accuracy, loss = evaluate_validation_set(net, valloader, criterion)
                 validation_accuracy_log.append(accuracy)
                 validation_loss_log.append(loss)
 
                 iteration_log.append(len(trainloader)*(epoch) + i)
                 if i != 0:
                     accuracy_log.append(running_correct/running_total)
-                    loss_log.append(log_running_loss/visualizer_iteration)
+                    loss_log.append(running_loss2/visualizer_iteration)
                 else:
                     accuracy_log.append(running_correct)
-                    loss_log.append(log_running_loss)
+                    loss_log.append(running_loss2)
             
                 running_correct = 0
                 running_total = 0
-                log_running_loss = 0.0
+                running_loss2 = 0.0
+                # print('iteration_log:')
+                # print(iteration_log)
+                # print('loss_log:')
+                # print(loss_log)
+                # print('accuracy_log:')
+                # print(accuracy_log)
 
-            if i % 4000 == 3999:    # print every 2000 mini-batches
+            if i % 8000 == 7999:    # print every 2000 mini-batches
 
                 print('[%d, %5d] loss: %.3f' %
-                      (epoch + 1, i + 1, running_loss / 4000))
+                      (epoch + 1, i + 1, running_loss / 2000))
                 running_loss = 0.0
 
+    print('----- **** -----')
     return net, iteration_log, loss_log, validation_loss_log, accuracy_log, validation_accuracy_log
 
 def plot_results(option, count, iteration_log, loss_log, validation_loss_log, accuracy_log, validation_accuracy_log):
@@ -323,7 +317,7 @@ def plot_results(option, count, iteration_log, loss_log, validation_loss_log, ac
     learn_rate = option[1]
     num_epochs = option[2]
     iteration_log = np.linspace(0,num_epochs,len(iteration_log))
-    top_title =  'batch size: %d, learn rate: %f, epochs: %d' % (btch_size, learn_rate, num_epochs)
+    top_title =  'batch size: %d, learn rate %f, epochs: %d' % (btch_size, learn_rate, num_epochs)
     plt.figure(count+1)
 
     plt.suptitle(top_title)
@@ -344,39 +338,20 @@ def plot_results(option, count, iteration_log, loss_log, validation_loss_log, ac
     string = '%d.png' % (count)
     plt.savefig(string, bbox_inches='tight')
     
-def eval_net(net, testloader):
-    correct = 0
-    total = 0
-    with torch.no_grad():
-        for data in testloader:
-            images, labels = data
-            images, labels = images.to(device), labels.to(device)
-            outputs = net(images)
-            _, predicted = torch.max(outputs.data, 1)
-            total += labels.size(0)
-            correct += (predicted == labels).sum().item()
 
-    print('Accuracy of the network on the 10000 test images: %d %%' % (
-        100 * correct / total))
-    accuracy = correct / total
-    return accuracy
-
-# _________________________________________
-
-batch_opts = [10]
-lr_opts = [0.1]
-epoch_opts = [5]
+batch_opts = [8]
+lr_opts = [0.001]
+epoch_opts = [4]
 
 all_options = list(product(batch_opts,lr_opts,epoch_opts))
 option_labels = ['batches', 'learning rate','epochs']
 # print(all_options)
 max_accuracy_list = []
-test_accuracy_list = []
 
 count = 0
-btch_size = 4
+btch_size = 8
 learn_rate = 0.001
-num_epochs = 2
+num_epochs = 4
 
 
 for option in all_options:
@@ -387,17 +362,11 @@ for option in all_options:
     start_time = time.time()
     net, iteration_log, loss_log, validation_loss_log, accuracy_log, validation_accuracy_log = train(num_epochs, btch_size, learn_rate, trainset, valset)
     elapsed_time = (time.time() - start_time)/60
-    print('** evaluating **')
-    print('batch size: %d, learn rate: %f, epochs: %d' % (btch_size, learn_rate, num_epochs))
-    test_accuracy = eval_net(net, testloader)
-    test_accuracy_list.append(test_accuracy)
-
     max_accuracy = max(validation_accuracy_log)
-    max_accuracy_list.append(test_accuracy)
+    max_accuracy_list.append(max_accuracy)
     min_loss = min(validation_loss_log)
     with open("Output.txt", "a") as text_file:
         text_file.write("\n \nCount: %s, Time: %f\n" % (count, elapsed_time))
-        text_file.write("Accuracy of the network on the 10000 test images: %f\n" % (test_accuracy))
         text_file.write("Max Validation accuracy: %f, Min Validation loss: %f\n" % (max_accuracy, min_loss))
         for i in range(3):
             text_file.write(option_labels[i]+": %s\n" % option[i])
@@ -407,16 +376,16 @@ for option in all_options:
     # plt.show()
     count += 1
     # sys.exit()
-total_best_accuracy = max(test_accuracy_list)
+total_best_accuracy = max(max_accuracy_list)
 best_accuracy_index = max_accuracy_list.index(total_best_accuracy)
-print('Final best test accuracy:')
+print('FINAL BEST ACC:')
 print(total_best_accuracy)
-print('At count:')
+print('AT INDEX:')
 print(best_accuracy_index)
 
 with open("Output.txt", "a") as text_file:
     text_file.write("\n\n*****-------*****FINAL RESULT*****-------*****\n")
-    text_file.write("\n \nCount number of best accuracy: %s, Best test accuracy: %f\n" % (best_accuracy_index, total_best_accuracy))
+    text_file.write("\n \nCount number of best accuracy: %s, Best accuracy: %f\n" % (best_accuracy_index, total_best_accuracy))
 
 
 # plt.show()
@@ -458,3 +427,18 @@ with open("Output.txt", "a") as text_file:
 # fig.savefig("test.png")
 
 
+def eval_net(net, testloader):
+    correct = 0
+    total = 0
+    with torch.no_grad():
+        for data in testloader:
+            images, labels = data
+            outputs = net(images)
+            _, predicted = torch.max(outputs.data, 1)
+            total += labels.size(0)
+            correct += (predicted == labels).sum().item()
+
+    print('Accuracy of the network on the 10000 test images: %d %%' % (
+        100 * correct / total))
+
+eval_net(net, testloader)
