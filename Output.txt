@@ -1,0 +1,7 @@
+
+ 
+Count: 0, Time: 9.918190
+Max Validation accuracy: 0.600400, Min Validation loss: 1.153010
+batches: 8
+learning rate: 0.0005
+epochs: 16

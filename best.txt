@@ -1,0 +1,41 @@
+Count: 19, Time: 8.467890
+Max_accuracy: 0.742258, Min_loss: 0.746200
+batches: 4
+learning rate: 0.001
+epochs: 16
+
+Count: 34, Time: 7.512765
+Max_accuracy: 0.718906, Min_loss: 0.794662
+batches: 8
+learning rate: 0.001
+epochs: 16
+
+Count: 3, Time: 6.262556
+Max_accuracy: 0.603397, Min_loss: 1.112906
+batches: 2
+learning rate: 0.001
+epochs: 8
+
+Count: 4, Time: 12.448026
+Max_accuracy: 0.688000, Min_loss: 0.907342
+batches: 2
+learning rate: 0.001
+epochs: 16
+
+Count: 9, Time: 12.464565
+Max_accuracy: 0.646000, Min_loss: 0.999120
+batches: 2
+learning rate: 0.0001
+epochs: 16
+
+Count: 18, Time: 4.207478
+Max_accuracy: 0.635750, Min_loss: 1.034270
+batches: 4
+learning rate: 0.001
+epochs: 8
+
+Count: 33, Time: 3.728958
+Max_accuracy: 0.615135, Min_loss: 1.085746
+batches: 8
+learning rate: 0.001
+epochs: 8
