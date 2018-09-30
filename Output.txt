@@ -1,112 +1,72 @@
 
  
-Count: 0, Time: 15.109125
-Accuracy of the network on the 10000 test images: 0.629000
-Max Validation accuracy: 0.640200, Min Validation loss: 1.030425
-batches: 8
-learning rate: 0.001
-epochs: 8
 
+**Baseline 
+Count: 0, Time: 5.028853
+Accuracy of the network on the 10000 test images: 0.704500
+Max Validation accuracy: 0.713200, Min Validation loss: 0.819784
 
-*****-------*****FINAL RESULT*****-------*****
+** RandomHorizontalFlip
+Count: 0, Time: 4.892071
+Accuracy of the network on the 10000 test images: 0.710100
+Max Validation accuracy: 0.716600, Min Validation loss: 0.812295
 
- 
-Count number of best accuracy: 0, Best test accuracy: 0.629000
+** RandomHorizontalFlip + RandomVerticalFlip
+Time: 5.545673
+Accuracy of the network on the 10000 test images: 0.625400
+Max Validation accuracy: 0.610200, Min Validation loss: 1.074486
 
- 
-Count: 0, Time: 21.567709
-Accuracy of the network on the 10000 test images: 0.658400
-Max Validation accuracy: 0.639200, Min Validation loss: 1.017490
-batches: 8
-learning rate: 0.001
-epochs: 8
+** RandomVerticalFlip
+Time: 5.081423
+Accuracy of the network on the 10000 test images: 0.612700
+Max Validation accuracy: 0.608200, Min Validation loss: 1.080679
 
+** 75% Channel size
+Time: 4.984404
+Accuracy of the network on the 10000 test images: 0.693100
+Max Validation accuracy: 0.695600, Min Validation loss: 0.879412
 
-*****-------*****FINAL RESULT*****-------*****
+** 50% Channel size
+Time: 5.459886
+Accuracy of the network on the 10000 test images: 0.652500
+Max Validation accuracy: 0.659400, Min Validation loss: 0.959039
 
- 
-Count number of best accuracy: 0, Best test accuracy: 0.658400
+** weight decay 2e-5
+Time: 5.102315
+Accuracy of the network on the 10000 test images: 0.711000
+Max Validation accuracy: 0.719600, Min Validation loss: 0.799653
 
- 
-Count: 0, Time: 8.906202
-Accuracy of the network on the 10000 test images: 0.618900
-Max Validation accuracy: 0.618400, Min Validation loss: 1.139650
-batches: 8
-learning rate: 0.001
-epochs: 8
+**momentum=0.7**
+Time: 4.935413 mins  
+Accuracy of the network on the 10000 test images: 0.544600  
+Max Validation accuracy: 0.535200, Min Validation loss: 1.269263  
 
+**momentum=1**  
+Time: 4.916899 mins  
+Accuracy of the network on the 10000 test images: 0.100000  
+Max Validation accuracy: 0.098600, Min Validation loss: 2.416755  
 
-*****-------*****FINAL RESULT*****-------*****
+**momentum=0.95** 
+Time: 4.920215 mins  
+Accuracy of the network on the 10000 test images: 0.722800  
+Max Validation accuracy: 0.728800, Min Validation loss: 0.810020  
 
- 
-Count number of best accuracy: 0, Best test accuracy: 0.618900
+**momentum=0.85** 
+Time: 4.922735 mins  
+Accuracy of the network on the 10000 test images: 0.674400  
+Max Validation accuracy: 0.677000, Min Validation loss: 0.907226  
 
- 
-Count: 0, Time: 8.920450
-Accuracy of the network on the 10000 test images: 0.673500
-Max Validation accuracy: 0.671600, Min Validation loss: 0.950848
-batches: 8
-learning rate: 0.001
-epochs: 8
-
-
-*****-------*****FINAL RESULT*****-------*****
-
- 
-Count number of best accuracy: 0, Best test accuracy: 0.673500
-
- 
-Count: 0, Time: 7.376423
-Accuracy of the network on the 10000 test images: 0.634800
-Max Validation accuracy: 0.647800, Min Validation loss: 1.036160
-batches: 10
-learning rate: 0.1
-epochs: 8
-
-
-*****-------*****FINAL RESULT*****-------*****
+**RandomHorizontalFlip, weight decay of 2e-5 and a momentum= of 0.95  
+Time: 5.758097 mins  
+Accuracy of the network on the 10000 test images: 0.726100  
+Max Validation accuracy: 0.733600, Min Validation loss: 0.783036  
 
  
-Count number of best accuracy: 0, Best test accuracy: 0.634800
+Time: 5.112495 mins  
+Accuracy of the network on the 10000 test images: 0.715800  
+Max Validation accuracy: 0.725800, Min Validation loss: 0.792869  
 
  
-Count: 0, Time: 5.102122
-Accuracy of the network on the 10000 test images: 0.638700
-Max Validation accuracy: 0.643600, Min Validation loss: 1.019289
-batches: 10
-learning rate: 0.1
-epochs: 5
-
-
-*****-------*****FINAL RESULT*****-------*****
-
- 
-Count number of best accuracy: 0, Best test accuracy: 0.638700
-
- 
-Count: 0, Time: 4.778139
-Accuracy of the network on the 10000 test images: 0.624600
-Max Validation accuracy: 0.626600, Min Validation loss: 1.054054
-batches: 10
-learning rate: 0.1
-epochs: 5
-
-
-*****-------*****FINAL RESULT*****-------*****
-
- 
-Count number of best accuracy: 0, Best test accuracy: 0.624600
-
- 
-Count: 0, Time: 5.562153
-Accuracy of the network on the 10000 test images: 0.707400
-Max Validation accuracy: 0.700600, Min Validation loss: 0.848077
-batches: 10
-learning rate: 0.1
-epochs: 5
-
-
-*****-------*****FINAL RESULT*****-------*****
-
- 
-Count number of best accuracy: 0, Best test accuracy: 0.707400
+Time: 5.749090 mins  
+Accuracy of the network on the 10000 test images: 0.731600  
+Max Validation accuracy: 0.724400, Min Validation loss: 0.784328  

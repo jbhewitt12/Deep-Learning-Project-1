@@ -255,6 +255,7 @@ def eval_net(net, testloader):
     with torch.no_grad():
         for data in testloader:
             images, labels = data
+            images, labels = images.to(device), labels.to(device)
             outputs = net(images)
             _, predicted = torch.max(outputs.data, 1)
             total += labels.size(0)
@@ -269,7 +270,7 @@ def eval_net(net, testloader):
 
 batch_opts = [8]
 lr_opts = [0.001]
-epoch_opts = [16]
+epoch_opts = [4]
 
 all_options = list(product(batch_opts,lr_opts,epoch_opts))
 option_labels = ['batches', 'learning rate','epochs']

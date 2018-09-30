@@ -12,96 +12,6 @@ from itertools import product
 import sys 
 import time
 
-# -------------------------------------------
-# count = 1
-# epochs = 2
-# accuracy_log = [3,5,6]
-# iteration_log = np.linspace(0,epochs,len(accuracy_log))
-# btch_size = 4
-# learn_rate = 0.04
-# num_epochs = 5
-# top_title =  'batch size: %d, learn rate %f, epochs: %d' % (count, btch_size, learn_rate, num_epochs)
-
-# plt.figure(count+1)
-# plt.suptitle(top_title)
-# plt.subplot(211)
-# plt.plot(iteration_log, [3,5,6], 'r--', label = 'training loss')
-# plt.plot(iteration_log, [2,5,7], 'b-.', label = 'validation loss')
-# plt.title('Loss for training and validation')
-# plt.xlabel('training iterations')
-# legend = plt.legend(loc='upper right', shadow=True)
-# plt.subplot(212)
-# plt.plot(iteration_log, [3,7,7], 'r--', label = 'training accuracy')
-# plt.plot(iteration_log, [3,5,4], 'b-.', label = 'validation accuracy')
-# plt.title('Accuracy for training and validation')
-# plt.xlabel('training iterations')
-# legend = plt.legend(loc='lower right', shadow=True)
-# plt.tight_layout()
-# plt.subplots_adjust(top=0.88)
-# string = '%d.png' % (count)
-# plt.show()
-# # plt.savefig(string, bbox_inches='tight')
-# sys.exit() 
-
-# -------------------------------------------
-# batch_opts = [2,4,8]
-# lr_opts = [0.001,0.0001,0.00001]
-# epoch_opts = [1,2,4,8,16]
-
-# all_options = list(product(batch_opts,lr_opts,epoch_opts))
-# # print(all_options)
-
-# count = 0
-# btch_size = 4
-# learn_rate = 0.001
-# num_epochs = 2
-# option_labels = ['batches', 'learning rate','epochs']
-# for option in all_options:
-
-    
-#     with open("Output.txt", "a") as text_file:
-        
-#         for i in range(3):
-#             text_file.write(option_labels[i]+": %s\n" % option[i])
-    
-#     sys.exit()  
-# -------------------------------------------
-print('cuda available:')
-print(torch.cuda.is_available())
-
-device = 'cuda' if torch.cuda.is_available() else 'cpu'
-
-transform = transforms.Compose(
-    [transforms.ToTensor(),
-     transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
-
-trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
-                                        download=True, transform=transform)
-
-testset = torchvision.datasets.CIFAR10(root='./data', train=False,
-                                       download=True, transform=transform)
-testloader = torch.utils.data.DataLoader(testset, batch_size=4,
-                                         shuffle=False, num_workers=0)
-
-print('initial trainset length')
-print(len(trainset))
-print('testset length')
-print(len(testset))
-
-classes = ('plane', 'car', 'bird', 'cat',
-           'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
-
-
-# Your split codes comes here.
-# You need to random select the 5000 validation images 
-
-
-
-# found here: https://pytorch.org/docs/stable/data.html
-valset, trainset = torch.utils.data.random_split(trainset, [5000,45000])
-
-
-
 def evaluate_validation_set(net, valloader, criterion):
     correct = 0
     total = 0
@@ -126,101 +36,47 @@ def evaluate_validation_set(net, valloader, criterion):
 # besides, you can also make modifications for faster training 
 # by selecting a subset of the original dataset.
 
+def add_weight_decay(net, l2_value, skip_list=()):
+    decay, no_decay = [], []
+    for name, param in net.named_parameters():
+        if not param.requires_grad: 
+            continue # frozen weights 
+        if len(param.shape) == 1 or name.endswith(".bias") or name in skip_list: 
+            no_decay.append(param)
+        else: 
+            decay.append(param)
+    return [{'params': no_decay, 'weight_decay': 0.}, {'params': decay, 'weight_decay': l2_value}]
 
 class Net(nn.Module):
     
     def __init__(self):
-        old = False
-        if old:
-            super(Net, self).__init__()
-            # Conv2d(in channel, out channel, kernel)
-            # Linear(in channel, out channel)
-            self.conv1 = nn.Conv2d(3, 6, 5, stride=1, padding=0)
-            self.pool = nn.MaxPool2d(2, 2)
-            self.conv2 = nn.Conv2d(6, 16, 5)
-            self.fc1 = nn.Linear(16 * 5 * 5, 120)
-            self.fc2 = nn.Linear(120, 84)
-            self.fc3 = nn.Linear(84, 10)
-
-        else:
-            super(Net, self).__init__()
-            # Conv2d(in channel, out channel, kernel)
-            # Linear(in channel, out channel)
-            self.conv1 = nn.Conv2d(3, 28, 5, stride=1, padding=2)
-            self.pool = nn.MaxPool2d(2, 2)
-            self.conv2 = nn.Conv2d(28, 42, 5, padding=2)
-            self.conv3 = nn.Conv2d(42, 64, 3, padding=1)
-            self.fc1 = nn.Linear(64 * 4 * 4, 512)
-            self.fc2 = nn.Linear(512, 256)
-            self.fc3 = nn.Linear(256, 64)
-            self.fc4 = nn.Linear(64, 10)
+        
+        super(Net, self).__init__()
+        self.conv1 = nn.Conv2d(3, 28, 5, stride=1, padding=2)
+        self.pool = nn.MaxPool2d(2, 2)
+        self.conv2 = nn.Conv2d(28, 42, 5, padding=2)
+        self.conv3 = nn.Conv2d(42, 64, 3, padding=1)
+        self.fc1 = nn.Linear(64 * 4 * 4, 512)
+        self.fc2 = nn.Linear(512, 256)
+        self.fc3 = nn.Linear(256, 64)
+        self.fc4 = nn.Linear(64, 10)
 
     def forward(self, x):
-        old = False
-
-        if old:
-            print('Wout of conv1 should be:')
-            # outputSize(in_size, kernel_size, stride, padding)
-            print(outputSize(32, 5, 1, 0))
-            
-
-            print('\ninitial x size:')
-            print(x.size())
-            x = F.relu(self.conv1(x))
-            print('x size after conv 1:')
-            print(x.size())
-
-            x = self.pool(x)
-
-            print('x size after pooling:')
-            print(x.size())
-            out_conv1 = x.size()
-
-            print('\nWout of conv2 should be:')
-            # outputSize(in_size, kernel_size, stride, padding)
-            print(outputSize(out_conv1[2], 5, 1, 0))
-
-            x = self.pool(F.relu(self.conv2(x)))
-
-            
-
-            print('x size after conv 2:')
-            print(x.size())
-            x = x.view(-1, 16 * 5 * 5)
-            print('x size after view:')
-            print(x.size())
-            sys.exit()
-            x = F.relu(self.fc1(x))
-            x = F.relu(self.fc2(x))
-            x = self.fc3(x)
-            return x
-
-        # 4D tensor: ( B, C, W, H )
-        # B: batch size
-        # C: channel
-        # W/H: width/height
-
-        # The problem is not channel size, it's that the output feature map gets too small
-
-        else:
-            x = self.pool(F.relu(self.conv1(x)))
-            # print('x size: after conv 1')
-            # print(x.size())
-            x = self.pool(F.relu(self.conv2(x)))
-            # print('x size: after conv 2')
-            # print(x.size())
-            x = self.pool(F.relu(self.conv3(x)))
-            # print('x size: after conv 3')
-            # print(x.size())
-            x = x.view(-1, 64 * 4 * 4)
-            x = F.relu(self.fc1(x))
-            x = F.relu(self.fc2(x))
-            x = F.relu(self.fc3(x))
-            x = self.fc4(x)
-            return x
+        
+        x = self.pool(F.relu(self.conv1(x)))
+        x = self.pool(F.relu(self.conv2(x)))
+        x = self.pool(F.relu(self.conv3(x)))
+        x = x.view(-1, 64 * 4 * 4)
+        x = F.relu(self.fc1(x))
+        x = F.relu(self.fc2(x))
+        x = F.relu(self.fc3(x))
+        x = self.fc4(x)
+        return x
 
 
 def train(num_epochs, btch_size, learn_rate, trainset, valset):
+    use_weight_decay = True
+
     start_time = time.time()
     trainloader = torch.utils.data.DataLoader(trainset, batch_size=btch_size,
                                           shuffle=True, num_workers=0)
@@ -232,8 +88,12 @@ def train(num_epochs, btch_size, learn_rate, trainset, valset):
     net = net.to(device) 
 
     criterion = nn.CrossEntropyLoss()
-    optimizer = optim.SGD(net.parameters(), lr=learn_rate, momentum=0.9)
-    # scheduler = torch.optim.lr_scheduler.StepLR(optimizer, step_size=3, gamma=0.1)
+
+    if use_weight_decay:
+        params = add_weight_decay(net, 2e-5) # adding weight decay to network
+        optimizer = optim.SGD(params, lr=learn_rate, momentum=0.95)
+    else:
+        optimizer = optim.SGD(net.parameters(), lr=learn_rate, momentum=0.9)
 
     #initialize variables for logging results
     iteration_log = []
@@ -242,11 +102,13 @@ def train(num_epochs, btch_size, learn_rate, trainset, valset):
     validation_loss_log = []
     validation_accuracy_log = []
     visualizer_iteration = 2000 #set how many batches are passed before avg accuracy and loss are saved
+    last_epoch = False
 
     for epoch in range(num_epochs):  # loop over the dataset for num_epochs
         # scheduler.step()
+        
+        #Simple learning rate scheduler 
         if epoch < 1:
-            print('lr = 0.01')
             lr = 0.005
             for param_group in optimizer.param_groups:
                 param_group['lr'] = lr
@@ -316,6 +178,9 @@ def train(num_epochs, btch_size, learn_rate, trainset, valset):
                       (epoch + 1, i + 1, running_loss / 4000))
                 running_loss = 0.0
 
+    
+    # when you load the model back again via state_dict method, remember to do MyModel.eval(), otherwise the results will differ.
+    torch.save(net.state_dict(), './modified.pth')
     return net, iteration_log, loss_log, validation_loss_log, accuracy_log, validation_accuracy_log
 
 def plot_results(option, count, iteration_log, loss_log, validation_loss_log, accuracy_log, validation_accuracy_log):
@@ -344,9 +209,10 @@ def plot_results(option, count, iteration_log, loss_log, validation_loss_log, ac
     string = '%d.png' % (count)
     plt.savefig(string, bbox_inches='tight')
     
-def eval_net(net, testloader):
+def eval_net(testing, net, testloader):
     correct = 0
     total = 0
+
     with torch.no_grad():
         for data in testloader:
             images, labels = data
@@ -361,100 +227,103 @@ def eval_net(net, testloader):
     accuracy = correct / total
     return accuracy
 
-# _________________________________________
+# ************** MAIN ************** #
 
-batch_opts = [10]
-lr_opts = [0.1]
-epoch_opts = [5]
+testing = True #Change this to False to train the network.
 
-all_options = list(product(batch_opts,lr_opts,epoch_opts))
-option_labels = ['batches', 'learning rate','epochs']
-# print(all_options)
-max_accuracy_list = []
-test_accuracy_list = []
+test_baseline = False #change this to False to test modified.pth 
 
-count = 0
-btch_size = 4
-learn_rate = 0.001
-num_epochs = 2
+horizontal_flip = False #Change this to true to add horizontal flipping transform
 
+device = 'cuda' if torch.cuda.is_available() else 'cpu' #If cuda is available then the program will use it, otherwise it will use the cpu. 
 
-for option in all_options:
-    btch_size = option[0]
-    learn_rate = option[1]
-    num_epochs = option[2]
-    # print(btch_size,learn_rate, num_epochs)
-    start_time = time.time()
-    net, iteration_log, loss_log, validation_loss_log, accuracy_log, validation_accuracy_log = train(num_epochs, btch_size, learn_rate, trainset, valset)
-    elapsed_time = (time.time() - start_time)/60
-    print('** evaluating **')
-    print('batch size: %d, learn rate: %f, epochs: %d' % (btch_size, learn_rate, num_epochs))
-    test_accuracy = eval_net(net, testloader)
-    test_accuracy_list.append(test_accuracy)
-
-    max_accuracy = max(validation_accuracy_log)
-    max_accuracy_list.append(test_accuracy)
-    min_loss = min(validation_loss_log)
-    with open("Output.txt", "a") as text_file:
-        text_file.write("\n \nCount: %s, Time: %f\n" % (count, elapsed_time))
-        text_file.write("Accuracy of the network on the 10000 test images: %f\n" % (test_accuracy))
-        text_file.write("Max Validation accuracy: %f, Min Validation loss: %f\n" % (max_accuracy, min_loss))
-        for i in range(3):
-            text_file.write(option_labels[i]+": %s\n" % option[i])
-        
-    print('plotting')    
-    plot_results(option, count, iteration_log, loss_log, validation_loss_log, accuracy_log, validation_accuracy_log)
-    # plt.show()
-    count += 1
-    # sys.exit()
-total_best_accuracy = max(test_accuracy_list)
-best_accuracy_index = max_accuracy_list.index(total_best_accuracy)
-print('Final best test accuracy:')
-print(total_best_accuracy)
-print('At count:')
-print(best_accuracy_index)
-
-with open("Output.txt", "a") as text_file:
-    text_file.write("\n\n*****-------*****FINAL RESULT*****-------*****\n")
-    text_file.write("\n \nCount number of best accuracy: %s, Best test accuracy: %f\n" % (best_accuracy_index, total_best_accuracy))
+if horizontal_flip:
+    transform = transforms.Compose(
+        [transforms.RandomHorizontalFlip(),
+         # transforms.RandomVerticalFlip(),
+         transforms.ToTensor(),
+         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+else:
+    transform = transforms.Compose(
+        [transforms.ToTensor(),
+         transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
 
-# plt.show()
+trainset = torchvision.datasets.CIFAR10(root='./data', train=True,
+                                        download=True, transform=transform)
 
-# print('iteration_log:')
-# print(iteration_log)
-# print('loss_log:')
-# print(loss_log)
+testset = torchvision.datasets.CIFAR10(root='./data', train=False,
+                                       download=True, transform=transform)
+testloader = torch.utils.data.DataLoader(testset, batch_size=4,
+                                         shuffle=False, num_workers=0)
+
+# found here: https://pytorch.org/docs/stable/data.html
+valset, trainset = torch.utils.data.random_split(trainset, [5000,45000])
+
+classes = ('plane', 'car', 'bird', 'cat',
+           'deer', 'dog', 'frog', 'horse', 'ship', 'truck')
+
+if testing: #TESTING ------------------------------------------------
+    
+    net = Net()
+    net = net.to(device) 
+    net.eval()
+    if test_baseline:
+        print('Testing baseline.pth')
+        net.load_state_dict(torch.load('baseline.pth'))
+    else:
+        print('Testing modified.pth')
+        net.load_state_dict(torch.load('modified.pth'))
+    accuracy = eval_net(testing, net, testloader)
+
+else: #TRAINING ------------------------------------------------
+    
+    #This is for running through different training options for batch size, learning rate and number of epochs 
+    batch_opts = [10]
+    lr_opts = [0.01]
+    epoch_opts = [5]
+
+    all_options = list(product(batch_opts,lr_opts,epoch_opts))
+    option_labels = ['batches', 'learning rate','epochs']
+    # print(all_options)
+    max_accuracy_list = []
+    test_accuracy_list = []
+
+    count = 0
+    btch_size = 4
+    learn_rate = 0.001
+    num_epochs = 2
 
 
+    for option in all_options:
+        btch_size = option[0]
+        learn_rate = option[1]
+        num_epochs = option[2]
+        # print(btch_size,learn_rate, num_epochs)
+        start_time = time.time()
+        net, iteration_log, loss_log, validation_loss_log, accuracy_log, validation_accuracy_log = train(num_epochs, btch_size, learn_rate, trainset, valset)
+        elapsed_time = (time.time() - start_time)/60
+        print('** evaluating **')
+        print('batch size: %d, learn rate: %f, epochs: %d' % (btch_size, learn_rate, num_epochs))
+        test_accuracy = eval_net(testing, net, testloader)
+        test_accuracy_list.append(test_accuracy)
 
-
-
-
-# functions to show the loss
-# *** remember to use %matplotlib inline in .ipynb, otherwise, you cannot see the output.
-# plt.figure(1)
-
-# plt.subplot(211)
-# plt.plot(iteration_log, loss_log, 'r--', iteration_log, validation_loss_log, 'b-.')
-# plt.title('Training loss')
-# plt.subplot(212)
-# plt.plot(iteration_log, accuracy_log, 'r--', iteration_log, validation_accuracy_log, 'b-.')
-# plt.title('Training accuracy')
-
-
-
-
-
-# plt.figure(2)
-# plt.subplot(211)
-# plt.plot(iteration_log, validation_loss_log, color='red', linestyle='--')
-# plt.title('Validation loss')
-# plt.subplot(212)
-# plt.plot(iteration_log, validation_accuracy_log, color='blue', linestyle='-.')
-# plt.title('Validation accuracy')
-
-
-# fig.savefig("test.png")
-
-
+        max_accuracy = max(validation_accuracy_log)
+        max_accuracy_list.append(test_accuracy)
+        min_loss = min(validation_loss_log)
+        with open("Output.txt", "a") as text_file:
+            text_file.write("\n \nTime: %f mins  \n" % (elapsed_time))
+            text_file.write("Accuracy of the network on the 10000 test images: %f  \n" % (test_accuracy))
+            text_file.write("Max Validation accuracy: %f, Min Validation loss: %f  \n" % (max_accuracy, min_loss))
+            
+        print('plotting')    
+        plot_results(option, count, iteration_log, loss_log, validation_loss_log, accuracy_log, validation_accuracy_log)
+        # plt.show()
+        count += 1
+        # sys.exit()
+    total_best_accuracy = max(test_accuracy_list)
+    best_accuracy_index = max_accuracy_list.index(total_best_accuracy)
+    print('Final best test accuracy:')
+    print(total_best_accuracy)
+    print('At count:')
+    print(best_accuracy_index)

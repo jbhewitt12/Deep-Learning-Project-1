@@ -1,0 +1,390 @@
+
+ 
+Count: 0, Time: 1.754103
+Accuracy of the network on the 10000 test images: 0.392000
+Max Validation accuracy: 0.376000, Min Validation loss: 1.682275
+batches: 4
+learning rate: 0.005
+epochs: 2
+
+ 
+Count: 1, Time: 3.391810
+Accuracy of the network on the 10000 test images: 0.389700
+Max Validation accuracy: 0.436200, Min Validation loss: 1.600464
+batches: 4
+learning rate: 0.005
+epochs: 4
+
+ 
+Count: 2, Time: 6.911891
+Accuracy of the network on the 10000 test images: 0.369000
+Max Validation accuracy: 0.430000, Min Validation loss: 1.597875
+batches: 4
+learning rate: 0.005
+epochs: 8
+
+ 
+Count: 3, Time: 13.606050
+Accuracy of the network on the 10000 test images: 0.361000
+Max Validation accuracy: 0.444200, Min Validation loss: 1.584920
+batches: 4
+learning rate: 0.005
+epochs: 16
+
+ 
+Count: 4, Time: 1.698154
+Accuracy of the network on the 10000 test images: 0.483900
+Max Validation accuracy: 0.493600, Min Validation loss: 1.403180
+batches: 4
+learning rate: 0.001
+epochs: 2
+
+ 
+Count: 5, Time: 3.491882
+Accuracy of the network on the 10000 test images: 0.544500
+Max Validation accuracy: 0.537600, Min Validation loss: 1.304688
+batches: 4
+learning rate: 0.001
+epochs: 4
+
+ 
+Count: 6, Time: 6.854010
+Accuracy of the network on the 10000 test images: 0.573400
+Max Validation accuracy: 0.601600, Min Validation loss: 1.141323
+batches: 4
+learning rate: 0.001
+epochs: 8
+
+ 
+Count: 7, Time: 13.810457
+Accuracy of the network on the 10000 test images: 0.558600
+Max Validation accuracy: 0.588400, Min Validation loss: 1.217579
+batches: 4
+learning rate: 0.001
+epochs: 16
+
+ 
+Count: 8, Time: 1.745091
+Accuracy of the network on the 10000 test images: 0.446700
+Max Validation accuracy: 0.436400, Min Validation loss: 1.542726
+batches: 4
+learning rate: 0.0005
+epochs: 2
+
+ 
+Count: 9, Time: 3.455338
+Accuracy of the network on the 10000 test images: 0.544000
+Max Validation accuracy: 0.533400, Min Validation loss: 1.299007
+batches: 4
+learning rate: 0.0005
+epochs: 4
+
+ 
+Count: 10, Time: 6.927431
+Accuracy of the network on the 10000 test images: 0.594200
+Max Validation accuracy: 0.590000, Min Validation loss: 1.168377
+batches: 4
+learning rate: 0.0005
+epochs: 8
+
+ 
+Count: 11, Time: 13.897653
+Accuracy of the network on the 10000 test images: 0.607100
+Max Validation accuracy: 0.628000, Min Validation loss: 1.105695
+batches: 4
+learning rate: 0.0005
+epochs: 16
+
+ 
+Count: 12, Time: 1.754902
+Accuracy of the network on the 10000 test images: 0.147000
+Max Validation accuracy: 0.148800, Min Validation loss: 2.295442
+batches: 4
+learning rate: 0.0001
+epochs: 2
+
+ 
+Count: 13, Time: 3.525045
+Accuracy of the network on the 10000 test images: 0.382100
+Max Validation accuracy: 0.378800, Min Validation loss: 1.715743
+batches: 4
+learning rate: 0.0001
+epochs: 4
+
+ 
+Count: 14, Time: 6.960411
+Accuracy of the network on the 10000 test images: 0.482000
+Max Validation accuracy: 0.483400, Min Validation loss: 1.447587
+batches: 4
+learning rate: 0.0001
+epochs: 8
+
+ 
+Count: 15, Time: 14.113404
+Accuracy of the network on the 10000 test images: 0.580300
+Max Validation accuracy: 0.578400, Min Validation loss: 1.196674
+batches: 4
+learning rate: 0.0001
+epochs: 16
+
+ 
+Count: 16, Time: 1.732866
+Accuracy of the network on the 10000 test images: 0.114700
+Max Validation accuracy: 0.125800, Min Validation loss: 2.297870
+batches: 4
+learning rate: 5e-05
+epochs: 2
+
+ 
+Count: 17, Time: 3.451740
+Accuracy of the network on the 10000 test images: 0.288300
+Max Validation accuracy: 0.281000, Min Validation loss: 1.949635
+batches: 4
+learning rate: 5e-05
+epochs: 4
+
+ 
+Count: 18, Time: 6.924517
+Accuracy of the network on the 10000 test images: 0.398300
+Max Validation accuracy: 0.404600, Min Validation loss: 1.675322
+batches: 4
+learning rate: 5e-05
+epochs: 8
+
+ 
+Count: 19, Time: 13.790969
+Accuracy of the network on the 10000 test images: 0.478200
+Max Validation accuracy: 0.488800, Min Validation loss: 1.415788
+batches: 4
+learning rate: 5e-05
+epochs: 16
+
+ 
+Count: 20, Time: 1.713294
+Accuracy of the network on the 10000 test images: 0.100000
+Max Validation accuracy: 0.103000, Min Validation loss: 2.302616
+batches: 4
+learning rate: 1e-05
+epochs: 2
+
+ 
+Count: 21, Time: 3.494180
+Accuracy of the network on the 10000 test images: 0.135000
+Max Validation accuracy: 0.138600, Min Validation loss: 2.299685
+batches: 4
+learning rate: 1e-05
+epochs: 4
+
+ 
+Count: 22, Time: 6.862621
+Accuracy of the network on the 10000 test images: 0.105400
+Max Validation accuracy: 0.133600, Min Validation loss: 2.301522
+batches: 4
+learning rate: 1e-05
+epochs: 8
+
+ 
+Count: 23, Time: 13.804128
+Accuracy of the network on the 10000 test images: 0.266600
+Max Validation accuracy: 0.248800, Min Validation loss: 2.043437
+batches: 4
+learning rate: 1e-05
+epochs: 16
+
+ 
+Count: 24, Time: 1.190150
+Accuracy of the network on the 10000 test images: 0.457300
+Max Validation accuracy: 0.447400, Min Validation loss: 1.542778
+batches: 8
+learning rate: 0.005
+epochs: 2
+
+ 
+Count: 25, Time: 2.383498
+Accuracy of the network on the 10000 test images: 0.512600
+Max Validation accuracy: 0.539800, Min Validation loss: 1.348347
+batches: 8
+learning rate: 0.005
+epochs: 4
+
+ 
+Count: 26, Time: 4.805039
+Accuracy of the network on the 10000 test images: 0.542500
+Max Validation accuracy: 0.539400, Min Validation loss: 1.332306
+batches: 8
+learning rate: 0.005
+epochs: 8
+
+ 
+Count: 27, Time: 9.631099
+Accuracy of the network on the 10000 test images: 0.556100
+Max Validation accuracy: 0.564800, Min Validation loss: 1.310082
+batches: 8
+learning rate: 0.005
+epochs: 16
+
+ 
+Count: 28, Time: 1.212236
+Accuracy of the network on the 10000 test images: 0.462300
+Max Validation accuracy: 0.468400, Min Validation loss: 1.505365
+batches: 8
+learning rate: 0.001
+epochs: 2
+
+ 
+Count: 29, Time: 2.413230
+Accuracy of the network on the 10000 test images: 0.532300
+Max Validation accuracy: 0.534000, Min Validation loss: 1.302430
+batches: 8
+learning rate: 0.001
+epochs: 4
+
+ 
+Count: 30, Time: 4.885881
+Accuracy of the network on the 10000 test images: 0.580800
+Max Validation accuracy: 0.590800, Min Validation loss: 1.178834
+batches: 8
+learning rate: 0.001
+epochs: 8
+
+ 
+Count: 31, Time: 9.700939
+Accuracy of the network on the 10000 test images: 0.603600
+Max Validation accuracy: 0.626200, Min Validation loss: 1.122041
+batches: 8
+learning rate: 0.001
+epochs: 16
+
+ 
+Count: 32, Time: 1.210138
+Accuracy of the network on the 10000 test images: 0.341600
+Max Validation accuracy: 0.324800, Min Validation loss: 1.870084
+batches: 8
+learning rate: 0.0005
+epochs: 2
+
+ 
+Count: 33, Time: 2.403203
+Accuracy of the network on the 10000 test images: 0.489800
+Max Validation accuracy: 0.474800, Min Validation loss: 1.438757
+batches: 8
+learning rate: 0.0005
+epochs: 4
+
+ 
+Count: 34, Time: 4.810119
+Accuracy of the network on the 10000 test images: 0.559800
+Max Validation accuracy: 0.546800, Min Validation loss: 1.251205
+batches: 8
+learning rate: 0.0005
+epochs: 8
+
+ 
+Count: 35, Time: 9.637303
+Accuracy of the network on the 10000 test images: 0.587700
+Max Validation accuracy: 0.605000, Min Validation loss: 1.117807
+batches: 8
+learning rate: 0.0005
+epochs: 16
+
+ 
+Count: 36, Time: 1.210554
+Accuracy of the network on the 10000 test images: 0.192400
+Max Validation accuracy: 0.152400, Min Validation loss: 2.239637
+batches: 8
+learning rate: 0.0001
+epochs: 2
+
+ 
+Count: 37, Time: 2.476532
+Accuracy of the network on the 10000 test images: 0.264900
+Max Validation accuracy: 0.242600, Min Validation loss: 2.027063
+batches: 8
+learning rate: 0.0001
+epochs: 4
+
+ 
+Count: 38, Time: 4.866102
+Accuracy of the network on the 10000 test images: 0.423300
+Max Validation accuracy: 0.422000, Min Validation loss: 1.593614
+batches: 8
+learning rate: 0.0001
+epochs: 8
+
+ 
+Count: 39, Time: 9.670874
+Accuracy of the network on the 10000 test images: 0.503300
+Max Validation accuracy: 0.497200, Min Validation loss: 1.399058
+batches: 8
+learning rate: 0.0001
+epochs: 16
+
+ 
+Count: 40, Time: 1.203442
+Accuracy of the network on the 10000 test images: 0.117500
+Max Validation accuracy: 0.117200, Min Validation loss: 2.299812
+batches: 8
+learning rate: 5e-05
+epochs: 2
+
+ 
+Count: 41, Time: 2.411381
+Accuracy of the network on the 10000 test images: 0.139600
+Max Validation accuracy: 0.124800, Min Validation loss: 2.290235
+batches: 8
+learning rate: 5e-05
+epochs: 4
+
+ 
+Count: 42, Time: 4.852760
+Accuracy of the network on the 10000 test images: 0.149700
+Max Validation accuracy: 0.160000, Min Validation loss: 2.299339
+batches: 8
+learning rate: 5e-05
+epochs: 8
+
+ 
+Count: 43, Time: 9.871451
+Accuracy of the network on the 10000 test images: 0.398700
+Max Validation accuracy: 0.400000, Min Validation loss: 1.669736
+batches: 8
+learning rate: 5e-05
+epochs: 16
+
+ 
+Count: 44, Time: 1.224429
+Accuracy of the network on the 10000 test images: 0.100000
+Max Validation accuracy: 0.098000, Min Validation loss: 2.304873
+batches: 8
+learning rate: 1e-05
+epochs: 2
+
+ 
+Count: 45, Time: 2.438997
+Accuracy of the network on the 10000 test images: 0.093100
+Max Validation accuracy: 0.099000, Min Validation loss: 2.304383
+batches: 8
+learning rate: 1e-05
+epochs: 4
+
+ 
+Count: 46, Time: 4.898282
+Accuracy of the network on the 10000 test images: 0.100700
+Max Validation accuracy: 0.098600, Min Validation loss: 2.302410
+batches: 8
+learning rate: 1e-05
+epochs: 8
+
+ 
+Count: 47, Time: 9.693460
+Accuracy of the network on the 10000 test images: 0.137500
+Max Validation accuracy: 0.140200, Min Validation loss: 2.284259
+batches: 8
+learning rate: 1e-05
+epochs: 16
+
+
+*****-------*****FINAL RESULT*****-------*****
+
+ 
+Count number of best accuracy: 11, Best test accuracy: 0.607100
