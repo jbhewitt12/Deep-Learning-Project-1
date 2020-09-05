@@ -12,6 +12,7 @@ from itertools import product
 import sys 
 import time
 
+#test
 def evaluate_validation_set(net, valloader, criterion):
     correct = 0
     total = 0
